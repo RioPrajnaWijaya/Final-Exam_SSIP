@@ -1,0 +1,66 @@
+
+-- Database: `ar`
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `price` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `products` (`id`, `name`, `price`) VALUES
+(1, 'Donuts | Cherry', 120000),
+(2, 'Donuts | Caramel', 128000),
+(3, 'Donuts | Cinnamon', 125000),
+(4, 'Donuts | Lemon', 123000),
+(5, 'Donuts | Lime', 125000),
+(6, 'Donuts | Milk Coco', 128000),
+(7, 'Donuts | Pinapple', 122000),
+(8, 'Cube', 80000),
+(9, 'Bitcoin', 170000),
+(10, 'Planet', 100000),
+(11, 'Robot', 150000),
+(12, 'Black Cube', 170000),
+(13, 'Christmas', 190000),
+(14, 'Digital World', 195000),
+(15, 'Graveyard', 150000),
+(16, 'Virtual City', 198000);
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email_id` varchar(255) NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `registration_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `users_products` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `status` enum('Added To Cart','Confirmed') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `users_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `product_id` (`item_id`);
+
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `users_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `users_products`
+  ADD CONSTRAINT `users_products_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `users_products_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `products` (`id`);
